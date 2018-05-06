@@ -66,7 +66,7 @@ class UploadableField
         if (empty($options['filesystem'])) {
             throw new \InvalidArgumentException('The "filesystem" attribute of UploadableField is required.');
         }
-        
+
         if (empty($options['path'])) {
             throw new \InvalidArgumentException('The "path" attribute of UploadableField is required.');
         }

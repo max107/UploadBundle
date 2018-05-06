@@ -1,74 +1,74 @@
 parameters:
-    upload_cache_dir: '%kernel.cache_dir%'
+    max107.upload.cache_dir: '%kernel.cache_dir%'
 
 services:
-    max107.bundle.upload.driver.annotation:
+    max107.upload.driver.annotation:
         class: Max107\Bundle\UploadBundle\Upload\Metadata\Driver\AnnotationDriver
         arguments:
             - '@annotation_reader'
 
-    max107.bundle.upload.cache:
+    max107.upload.cache:
         class: Metadata\Cache\FileCache
         arguments:
-            - '%upload_cache_dir%'
+            - '%max107.upload.cache_dir%'
 
-    max107.bundle.upload.metadata_class_hierarchy:
+    max107.upload.metadata_class_hierarchy:
         class: Metadata\ClassHierarchyMetadata
 
-    max107.bundle.upload.metadata_factory:
+    max107.upload.metadata_factory:
         class: Metadata\MetadataFactory
         arguments:
-            - '@max107.bundle.upload.driver.annotation'
-            - '@max107.bundle.upload.metadata_class_hierarchy'
+            - '@max107.upload.driver.annotation'
+            - '@max107.upload.metadata_class_hierarchy'
             - '%kernel.debug%'
         calls:
-            - [ setCache, [ '@max107.bundle.upload.cache' ]]
+            - [ setCache, [ '@max107.upload.cache' ]]
 
-    max107.bundle.upload.metadata_reader:
+    max107.upload.metadata_reader:
         class: Max107\Bundle\UploadBundle\Upload\Metadata\MetadataReader
         arguments:
-            - '@max107.bundle.upload.metadata_factory'
+            - '@max107.upload.metadata_factory'
 
-    max107.bundle.upload.namer.directory.subdir:
+    max107.upload.namer.directory.subdir:
         class: Max107\Bundle\UploadBundle\Upload\DirectoryNamer\SubDirectoryNamer
 
-    max107.bundle.upload.namer.file.md5:
+    max107.upload.namer.file.md5:
         class: Max107\Bundle\UploadBundle\Upload\FileNamer\MD5FileNamer
 
-    max107.bundle.upload:
+    max107.upload:
         class: Max107\Bundle\UploadBundle\Upload\Uploader
         arguments:
-            - '@max107.bundle.upload.namer.file.md5'
-            - '@max107.bundle.upload.namer.directory.subdir'
+            - '@max107.upload.namer.file.md5'
+            - '@max107.upload.namer.directory.subdir'
 
-    max107.bundle.upload.upload_event_subscriber:
+    max107.upload.upload_event_subscriber:
         class: Max107\Bundle\UploadBundle\EventSubscriber\UploadEventSubscriber
         arguments:
-            - '@max107.bundle.upload.metadata_reader'
-            - '@max107.bundle.upload'
+            - '@max107.upload.metadata_reader'
+            - '@max107.upload'
             - '@oneup_flysystem.mount_manager'
             - '@property_accessor'
         tags:
             - { name: doctrine.event_subscriber }
 
-    max107.bundle.upload.form.event.file:
+    max107.upload.form.event.file:
         class: Max107\Bundle\UploadBundle\Form\Type\FileEvent
         arguments:
             - '@request_stack'
             - '@property_accessor'
 
-    max107.bundle.upload.form.type.image:
+    max107.upload.form.type.image:
         class: Max107\Bundle\UploadBundle\Form\Type\ImageType
         arguments:
-            - '@max107.bundle.upload.form.event.file'
+            - '@max107.upload.form.event.file'
             - '@property_accessor'
         tags:
             - { name: form.type }
 
-    max107.bundle.upload.form.type.file:
+    max107.upload.form.type.file:
         class: Max107\Bundle\UploadBundle\Form\Type\FileType
         arguments:
-            - '@max107.bundle.upload.form.event.file'
+            - '@max107.upload.form.event.file'
             - '@property_accessor'
         tags:
             - { name: form.type }
