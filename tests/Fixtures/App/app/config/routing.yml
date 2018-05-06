@@ -1,0 +1,27 @@
+upload:
+    path: /upload/{formType}
+    methods: GET
+    defaults: { _controller: VichTestBundle:Default:upload }
+
+upload_send:
+    path: /upload/{formType}/send
+    methods: POST
+    defaults: { _controller: VichTestBundle:Default:submit }
+
+upload_edit:
+    path: /upload/{formType}/send/{imageId}
+    methods: POST
+    defaults: { _controller: VichTestBundle:Default:submit }
+
+upload_remove:
+    path: /upload/remove/{imageId}
+    methods: POST
+    defaults: { _controller: VichTestBundle:Default:remove }
+
+view:
+    path: /upload/{imageId}/{formType}
+    methods: GET
+    defaults: { _controller: VichTestBundle:Default:edit }
+
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.yaml"

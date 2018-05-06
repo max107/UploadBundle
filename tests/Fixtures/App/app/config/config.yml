@@ -1,0 +1,64 @@
+# Symfony Configuration
+framework:
+    secret:             Hell yeah!
+    router:             { resource: "%kernel.root_dir%/config/routing.yml" }
+    form:               true
+    csrf_protection:    false
+    session:            ~
+    default_locale:     en
+    translator:         { fallback: en }
+    test:               ~
+    templating:
+        engines: ['twig']
+    session:
+        storage_id:     session.storage.mock_file
+    profiler:
+        collect: false
+
+oneup_flysystem:
+    adapters:
+        default:
+            local:
+                directory: '%kernel.cache_dir%/media'
+
+    filesystems:
+        default:
+            adapter: default
+            visibility: public
+            mount: default
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: "pdo_sqlite"
+        path:   "%kernel.cache_dir%/database.db3"
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_mapping: true
+
+liip_imagine:
+    loaders:
+        default:
+            flysystem:
+                filesystem_service: oneup_flysystem.default_filesystem
+    data_loader: default
+    resolvers:
+        default:
+            flysystem:
+                filesystem_service: oneup_flysystem.default_filesystem
+                root_url: /media
+                cache_prefix: cache
+    filter_sets :
+        cache: ~
+        preview:
+            quality: 75
+            filters:
+                thumbnail:
+                    size: [120, 120]
+                    mode: outbound

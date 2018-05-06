@@ -1,0 +1,43 @@
+{%- block file_preview_widget -%}
+    {% set attr = attr|merge({class: (attr.class|default('b-input b-input_file'))|trim}) -%}
+    {{- block('form_widget_simple') -}}
+    {%- if file_url -%}
+        <div class="b-space"></div>
+        <div>
+            <input type="checkbox"
+                   class="b-input b-input_choice"
+                   value="__remove"
+                   name="{{ full_name }}"
+                   id="{{ full_name }}_remove" />
+            <label class="b-label" for="{{ full_name }}_remove">Удалить текущий файл</label>
+        </div>
+        <div class="b-info">
+            <div class="b-info__label">Текущий файл:</div>
+            <a href="{{ asset(file_url, asset_name ? asset_name : null) }}" target="_blank"
+               class="b-info__value">{{ file_url|replace({ ('.' ~ file_url|split('.')|last): '' }) }}</a>
+        </div>
+    {%- endif -%}
+{%- endblock file_preview_widget -%}
+
+{%- block image_preview_widget -%}
+    {% set attr = attr|merge({class: (attr.class|default('b-input b-input_file'))|trim}) -%}
+    {{- block('form_widget_simple') -}}
+    {%- if file_url -%}
+        <div class="b-space"></div>
+        <div>
+            <input type="checkbox"
+                   class="b-input b-input_choice"
+                   value="__remove"
+                   name="{{ full_name }}"
+                   id="{{ full_name }}_remove" />
+            <label class="b-label" for="{{ full_name }}_remove">Удалить текущий файл</label>
+        </div>
+        <div class="b-info">
+            <div class="b-info__label">Текущий файл:</div>
+            <a href="{{ asset(file_url, asset_name ? asset_name : null) }}" target="_blank"
+               class="b-info__value" title="{{ file_url|replace({ ('.' ~ file_url|split('.')|last): '' }) }}">
+                <img src="{{ file_url|imagine_filter(imagine_filter) }}" alt="{{ file_url|replace({ ('.' ~ file_url|split('.')|last): '' }) }}">
+            </a>
+        </div>
+    {%- endif -%}
+{%- endblock image_preview_widget -%}
