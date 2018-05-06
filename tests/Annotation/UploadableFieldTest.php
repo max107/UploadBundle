@@ -23,10 +23,21 @@ class UploadableFieldTest extends TestCase
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The "filesystem" attribute of UploadableField is required.
      */
-    public function testExceptionThrownWhenNoMappingAttribute(): void
+    public function testExceptionThrownWhenNoFilesystemAttribute(): void
     {
         new UploadableField([
             'name' => 'fileName',
+        ]);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The "path" attribute of UploadableField is required.
+     */
+    public function testExceptionThrownWhenNoPathAttribute(): void
+    {
+        new UploadableField([
+            'filesystem' => 'default',
         ]);
     }
 
