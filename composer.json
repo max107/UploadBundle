@@ -22,7 +22,7 @@
   "autoload-dev": {
     "psr-4": {
       "Max107\\Bundle\\UploadBundle\\Tests\\": "./Tests/",
-      "Max107\\TestBundle\\": "tests/Fixtures/App/src/TestBundle/"
+      "Max107\\TestBundle\\": "./Tests/Fixtures/App/src/TestBundle/"
     }
   },
   "autoload": {
