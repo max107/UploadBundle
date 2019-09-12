@@ -19,34 +19,31 @@ use PHPUnit\Framework\TestCase;
  */
 class UploadableFieldTest extends TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The "filesystem" attribute of UploadableField is required.
-     */
     public function testExceptionThrownWhenNoFilesystemAttribute(): void
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The "filesystem" attribute of UploadableField is required.');
+
         new UploadableField([
             'name' => 'fileName',
         ]);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The "path" attribute of UploadableField is required.
-     */
     public function testExceptionThrownWhenNoPathAttribute(): void
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The "path" attribute of UploadableField is required.');
+
         new UploadableField([
             'filesystem' => 'default',
         ]);
     }
 
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Unknown key "foo" for annotation "@Max107\Bundle\UploadBundle\Upload\Annotation\UploadableField
-     */
     public function testExceptionUnknownProperty(): void
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Unknown key "foo" for annotation "@Max107\Bundle\UploadBundle\Upload\Annotation\UploadableField');
+
         new UploadableField([
             'path' => 'default',
             'filesystem' => 'default',

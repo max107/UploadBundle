@@ -38,7 +38,7 @@ class UploadEventSubscriberTest extends TestCase
      */
     protected $subscriber;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->metadataReader = $this->createMock(MetadataReader::class);
         $this->mountManager = $this->createMock(MountManager::class);

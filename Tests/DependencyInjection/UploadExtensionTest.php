@@ -15,7 +15,7 @@ use Symfony\Bundle\TwigBundle\DependencyInjection\TwigExtension;
 
 class UploadExtensionTest extends AbstractExtensionTestCase
 {
-    protected function getContainerExtensions()
+    protected function getContainerExtensions(): array
     {
         return [
             new UploadExtension(),
@@ -26,6 +26,7 @@ class UploadExtensionTest extends AbstractExtensionTestCase
     {
         parent::setUp();
 
+        $this->container->setParameter('kernel.debug', false);
         $this->container->setParameter('kernel.bundles', []);
         $this->container->setParameter('kernel.bundles_metadata', []);
         $this->container->setParameter('kernel.root_dir', __DIR__.'/../Fixtures/App/app');

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Max107\Bundle\UploadBundle\Tests\Metadata;
 
+use Max107\Bundle\UploadBundle\Upload\Exception\MappingNotFoundException;
 use Max107\Bundle\UploadBundle\Upload\Metadata\MetadataReader;
 use Metadata\AdvancedMetadataFactoryInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -152,11 +153,10 @@ class MetadataReaderTest extends TestCase
         $this->assertSame($expectedMetadata, $this->reader->getUploadableField('ClassName', 'field'));
     }
 
-    /**
-     * @expectedException \Max107\Bundle\UploadBundle\Upload\Exception\MappingNotFoundException
-     */
     public function testGetUploadableFieldWithInvalidClass(): void
     {
+        $this->expectException(MappingNotFoundException::class);
+
         $this->reader->getUploadableFields('InvalidClassName');
     }
 

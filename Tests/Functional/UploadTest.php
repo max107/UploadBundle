@@ -14,7 +14,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class UploadTest extends WebTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
