@@ -6,12 +6,12 @@
          colors="true">
     <testsuites>
         <testsuite name="UploadBundle Test Suite">
-            <directory>./tests</directory>
+            <directory>./Tests</directory>
         </testsuite>
     </testsuites>
 
     <php>
-        <server name="KERNEL_DIR" value="./tests/Fixtures/App/app"/>
+        <server name="KERNEL_DIR" value="./Tests/Fixtures/App/app"/>
         <server name="KERNEL_CLASS" value="AppKernel"/>
     </php>
 
@@ -20,7 +20,7 @@
             <directory>./</directory>
             <exclude>
                 <directory>./Resources</directory>
-                <directory>./tests</directory>
+                <directory>./Tests</directory>
                 <directory>./vendor</directory>
             </exclude>
         </whitelist>
