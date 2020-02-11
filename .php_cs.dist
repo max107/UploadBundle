@@ -1,0 +1,42 @@
+<?php
+
+$header = <<<HEADER
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+HEADER;
+
+$finder = PhpCsFixer\Finder::create()
+    ->exclude(__DIR__.'/vendor')
+    ->in(__DIR__);
+
+$config = (new PhpCsFixer\Config())
+    ->setUsingCache(false)
+    ->setRules([
+        '@Symfony' => true,
+        '@PSR2' => true,
+        'yoda_style' => false,
+        'header_comment' => [
+            'header' => $header,
+        ],
+        'declare_strict_types' => true,
+        'blank_line_before_return' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'array_indentation' => true,
+        'binary_operator_spaces' => [
+            'align_double_arrow' => true,
+        ],
+        'cast_spaces' => ['space' => 'none'],
+        'concat_space' => ['spacing' => 'one'],
+        'simplified_null_return' => false,
+        'no_unused_imports' => true,
+        'no_useless_else' => true,
+        'no_useless_return' => true,
+        'ordered_imports' => true,
+        'phpdoc_indent' => true,
+        'phpdoc_order' => true,
+        'phpdoc_align' => true,
+        'phpdoc_summary' => false,
+    ])
+    ->setFinder($finder);
+
+return $config;

@@ -45,9 +45,9 @@ class UploadableFieldTest extends TestCase
         $this->expectExceptionMessage('Unknown key "foo" for annotation "@Max107\Bundle\UploadBundle\Upload\Annotation\UploadableField');
 
         new UploadableField([
-            'path' => 'default',
+            'path'       => 'default',
             'filesystem' => 'default',
-            'foo' => 'bar',
+            'foo'        => 'bar',
         ]);
     }
 }

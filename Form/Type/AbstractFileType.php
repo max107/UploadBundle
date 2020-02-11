@@ -29,20 +29,19 @@ abstract class AbstractFileType extends AbstractType
     protected $propertyAccessor;
 
     /**
-     * FileType constructor.
-     *
      * @param FileEvent $event
+     * @param PropertyAccessor $propertyAccessor
      */
-    public function __construct(FileEvent $event)
+    public function __construct(FileEvent $event, PropertyAccessor $propertyAccessor)
     {
         $this->event = $event;
-        $this->propertyAccessor = new PropertyAccessor();
+        $this->propertyAccessor = $propertyAccessor;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $this->event->setFormBuilder($builder, $options['mapping']);
 
@@ -53,17 +52,16 @@ abstract class AbstractFileType extends AbstractType
     }
 
     /**
-     * @param array|\object $data
-     * @param string        $name
+     * @param array|object $data
      *
-     * @return null|string
+     * @param string $name
+     * @return string|null
      */
-    public function resolveFileUrl($data, string $name)
+    public function resolveFileUrl($data, string $name): ?string
     {
+        $value = '';
         if (is_array($data) && isset($data[$name]) || is_object($data)) {
             $value = $this->propertyAccessor->getValue($data, $name);
-        } else {
-            $value = '';
         }
 
         return is_string($value) ? $value : '';
@@ -72,7 +70,7 @@ abstract class AbstractFileType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         if ($parent = $form->getParent()) {
             $view->vars['file_url'] = $this->resolveFileUrl($parent->getData(), $options['mapping']);
@@ -84,7 +82,7 @@ abstract class AbstractFileType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): string
     {
         return BaseFileType::class;
     }

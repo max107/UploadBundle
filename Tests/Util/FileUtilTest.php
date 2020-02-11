@@ -16,10 +16,6 @@ class FileUtilTest extends TestCase
 {
     /**
      * @dataProvider spitNameByExtensionProvider
-     *
-     * @param string $filename
-     * @param string $basename
-     * @param string $extension
      */
     public function testSpitNameByExtension(string $filename, string $basename, string $extension): void
     {
@@ -32,11 +28,11 @@ class FileUtilTest extends TestCase
     public function spitNameByExtensionProvider()
     {
         return [
-            'simple filename with extension' => ['filename.extension', 'filename', 'extension'],
-            'cyrillic filename with extension  ' => ['Текстовый файл.txt', 'Текстовый файл', 'txt'],
-            'cyrillic filename with dot and extension' => ['Текстовый .файл.txt', 'Текстовый .файл', 'txt'],
+            'simple filename with extension'                    => ['filename.extension', 'filename', 'extension'],
+            'cyrillic filename with extension  '                => ['Текстовый файл.txt', 'Текстовый файл', 'txt'],
+            'cyrillic filename with dot and extension'          => ['Текстовый .файл.txt', 'Текстовый .файл', 'txt'],
             'cyrillic filename without extension ends with dot' => ['Текстовый файл.', 'Текстовый файл', ''],
-            'cyrillic filename without extension' => ['Текстовый файл', 'Текстовый файл', ''],
+            'cyrillic filename without extension'               => ['Текстовый файл', 'Текстовый файл', ''],
         ];
     }
 }

@@ -5,7 +5,7 @@
         <div class="b-space"></div>
         <div>
             <input type="checkbox"
-                   class="b-input b-input_choice"
+                   class="b-input b-input--choice"
                    value="__remove"
                    name="{{ full_name }}"
                    id="{{ full_name }}_remove" />
@@ -20,13 +20,13 @@
 {%- endblock file_preview_widget -%}
 
 {%- block image_preview_widget -%}
-    {% set attr = attr|merge({class: (attr.class|default('b-input b-input_file'))|trim}) -%}
+    {% set attr = attr|merge({class: (attr.class|default('b-input b-input--file'))|trim}) -%}
     {{- block('form_widget_simple') -}}
     {%- if file_url -%}
         <div class="b-space"></div>
         <div>
             <input type="checkbox"
-                   class="b-input b-input_choice"
+                   class="b-input b-input--choice"
                    value="__remove"
                    name="{{ full_name }}"
                    id="{{ full_name }}_remove" />

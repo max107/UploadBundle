@@ -1,0 +1,8 @@
+parameters:
+    level: 1
+    checkMissingIterableValueType: false
+    autoload_files:
+        - vendor/autoload.php
+    excludes_analyse:
+        - ./vendor
+        - ./Tests

@@ -26,7 +26,7 @@ class UploadEventSubscriber implements EventSubscriber
      */
     protected $uploader;
     /**
-     * @var FilesystemInterface
+     * @var MountManager
      */
     protected $mountManager;
     /**
@@ -39,11 +39,9 @@ class UploadEventSubscriber implements EventSubscriber
     protected $propertyAccessor;
 
     /**
-     * UploadListener constructor.
-     *
-     * @param MetadataReader   $metadata
-     * @param Uploader         $uploader
-     * @param MountManager     $mountManager
+     * @param MetadataReader $metadata
+     * @param Uploader $uploader
+     * @param MountManager $mountManager
      * @param PropertyAccessor $propertyAccessor
      */
     public function __construct(
@@ -60,7 +58,6 @@ class UploadEventSubscriber implements EventSubscriber
 
     /**
      * @param LifecycleEventArgs $args
-     *
      * @throws \League\Flysystem\FileExistsException
      * @throws \League\Flysystem\FileNotFoundException
      */
@@ -77,7 +74,6 @@ class UploadEventSubscriber implements EventSubscriber
 
     /**
      * @param PreUpdateEventArgs $args
-     *
      * @throws \League\Flysystem\FileExistsException
      * @throws \League\Flysystem\FileNotFoundException
      */
@@ -94,7 +90,6 @@ class UploadEventSubscriber implements EventSubscriber
 
     /**
      * @param string $prefix
-     *
      * @return FilesystemInterface
      */
     protected function getFilesystem(string $prefix): FilesystemInterface
@@ -130,7 +125,6 @@ class UploadEventSubscriber implements EventSubscriber
 
     /**
      * @param LifecycleEventArgs $args
-     *
      * @throws \League\Flysystem\FileNotFoundException
      */
     public function preRemove(LifecycleEventArgs $args)
@@ -153,7 +147,6 @@ class UploadEventSubscriber implements EventSubscriber
      * Checks if the given object is uploadable using the current mapping.
      *
      * @param mixed $object The object to test
-     *
      * @return bool
      */
     protected function isUploadable($object): bool
@@ -167,14 +160,11 @@ class UploadEventSubscriber implements EventSubscriber
      * Returns a list of uploadable fields for the given object and mapping.
      *
      * @param mixed $object
-     *
      * @return array
      */
     protected function getUploadableFields($object): array
     {
-        return $this->metadata->getUploadableFields(
-            ClassUtils::getClass($object)
-        );
+        return $this->metadata->getUploadableFields(ClassUtils::getClass($object));
     }
 
     /**
@@ -182,7 +172,7 @@ class UploadEventSubscriber implements EventSubscriber
      *
      * @return array
      */
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return [
             'prePersist',

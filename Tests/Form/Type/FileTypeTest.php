@@ -16,12 +16,16 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class FileTypeTest extends TestCase
 {
     public function testFileType()
     {
-        $fileType = new FileType($this->createMock(FileEvent::class));
+        $fileType = new FileType(
+            $this->createMock(FileEvent::class),
+            $this->createMock(PropertyAccessor::class)
+        );
         $this->assertSame('file_preview', $fileType->getBlockPrefix());
 
         $resolver = $this->createMock(OptionsResolver::class);
@@ -37,7 +41,7 @@ class FileTypeTest extends TestCase
             ->with([
                 'asset_name' => null,
                 'data_class' => null,
-                'mapping' => null,
+                'mapping'    => null,
             ])
             ->willReturn($resolver)
         ;
@@ -55,7 +59,10 @@ class FileTypeTest extends TestCase
 
     public function testImageType()
     {
-        $fileType = new ImageType($this->createMock(FileEvent::class));
+        $fileType = new ImageType(
+            $this->createMock(FileEvent::class),
+            $this->createMock(PropertyAccessor::class)
+        );
         $this->assertSame('image_preview', $fileType->getBlockPrefix());
 
         $resolver = $this->createMock(OptionsResolver::class);
@@ -69,9 +76,9 @@ class FileTypeTest extends TestCase
             ->expects($this->once())
             ->method('setDefaults')
             ->with([
-                'asset_name' => null,
-                'data_class' => null,
-                'mapping' => null,
+                'asset_name'     => null,
+                'data_class'     => null,
+                'mapping'        => null,
                 'imagine_filter' => null,
             ])
             ->willReturn($resolver)
@@ -83,8 +90,8 @@ class FileTypeTest extends TestCase
         $form->method('getParent')->willReturn($form);
         $form->method('getData')->willReturn('/');
         $fileType->buildView($view, $form, [
-            'mapping' => 'test',
-            'asset_name' => 'test',
+            'mapping'        => 'test',
+            'asset_name'     => 'test',
             'imagine_filter' => 'test',
         ]);
         $this->assertSame('test', $view->vars['asset_name']);

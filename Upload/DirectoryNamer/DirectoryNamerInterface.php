@@ -13,7 +13,6 @@ interface DirectoryNamerInterface
 {
     /**
      * @param string $name
-     *
      * @return string
      */
     public function getDirectoryName(string $name): string;

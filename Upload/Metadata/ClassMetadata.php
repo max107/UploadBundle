@@ -13,6 +13,9 @@ use Metadata\ClassMetadata as BaseClassMetadata;
 
 class ClassMetadata extends BaseClassMetadata
 {
+    /**
+     * @var array<mixed>
+     */
     public $fields = [];
 
     public function serialize(): string

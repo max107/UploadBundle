@@ -20,13 +20,11 @@ class DateDirectoryNamer implements DirectoryNamerInterface
      * %i - Current minutes
      * %s - Current seconds
      *
-     * @var string|callable|\Closure
+     * @var string
      */
     protected $format = '%Y-%m-%d';
 
     /**
-     * DateDirectoryNamer constructor.
-     *
      * @param string $format
      */
     public function __construct(string $format = '%Y-%m-%d')
@@ -36,7 +34,6 @@ class DateDirectoryNamer implements DirectoryNamerInterface
 
     /**
      * @param string $name
-     *
      * @return string
      */
     public function getDirectoryName(string $name): string

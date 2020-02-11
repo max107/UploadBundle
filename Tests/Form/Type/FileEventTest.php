@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class FileEventTest extends TestCase
 {
@@ -51,7 +52,10 @@ class FileEventTest extends TestCase
             ->method('getName')
             ->willReturn('test');
 
-        $fileEvent = new FileEvent($requestStack);
+        $fileEvent = new FileEvent(
+            $requestStack,
+            $this->createMock(PropertyAccessor::class)
+        );
         $fileEvent->setFormBuilder($formBuilder, 'test');
         call_user_func_array($fileEvent, [$formEvent]);
     }

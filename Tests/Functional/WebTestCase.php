@@ -11,6 +11,7 @@ namespace Max107\Bundle\UploadBundle\Tests\Functional;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\SchemaTool;
+use Max107\Bundle\UploadBundle\Tests\AppKernel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -18,15 +19,13 @@ class WebTestCase extends BaseWebTestCase
 {
     protected static function getKernelClass()
     {
-        require_once __DIR__.'/../Fixtures/App/app/AppKernel.php';
-
-        return 'AppKernel';
+        return AppKernel::class;
     }
 
     protected function getUploadedFile($client, $name, $mimeType = 'image/png')
     {
         return new UploadedFile(
-            $this->getImagesDir($client).DIRECTORY_SEPARATOR.$name,
+            $this->getImagesDir($client) . DIRECTORY_SEPARATOR . $name,
             $name,
             $mimeType,
             123
@@ -35,12 +34,12 @@ class WebTestCase extends BaseWebTestCase
 
     protected function getUploadsDir($client)
     {
-        return $client->getKernel()->getCacheDir().'/media';
+        return $client->getKernel()->getCacheDir() . '/media';
     }
 
     protected function getImagesDir($client)
     {
-        return $client->getKernel()->getRootDir().'/Resources/images';
+        return $client->getKernel()->getProjectDir() . '/Tests/images';
     }
 
     protected function getContainer($client)
