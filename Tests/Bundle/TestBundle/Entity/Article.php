@@ -7,7 +7,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Max107\TestBundle\Entity;
+namespace Max107\Bundle\UploadBundle\Tests\Bundle\TestBundle\Entity;
 
 use Max107\Bundle\UploadBundle\Upload\Annotation as App;
 

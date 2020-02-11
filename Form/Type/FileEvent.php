@@ -65,7 +65,10 @@ class FileEvent
      */
     public function fetchParams(string $path)
     {
-        $parameters = $this->request->request->all();
+        $parameters = array_merge(
+            $this->request->request->all(),
+            $this->request->files->all()
+        );
 
         return $this->propertyAccessor->getValue($parameters, $path);
     }

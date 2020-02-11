@@ -29,7 +29,6 @@ class UploadExtensionTest extends AbstractExtensionTestCase
         $this->container->setParameter('kernel.debug', false);
         $this->container->setParameter('kernel.bundles', []);
         $this->container->setParameter('kernel.bundles_metadata', []);
-        $this->container->setParameter('kernel.root_dir', __DIR__ . '/../Fixtures/App/app');
         $this->container->setParameter('kernel.project_dir', __DIR__ . '/../Fixtures/App');
         $this->container->setParameter('kernel.cache_dir', sys_get_temp_dir());
     }

@@ -1,0 +1,27 @@
+upload:
+  path: /upload/{formType}
+  methods: GET
+  defaults: { _controller: Max107\Bundle\UploadBundle\Tests\Bundle\TestBundle\Controller\DefaultController:upload }
+
+upload_send:
+  path: /upload/{formType}/send
+  methods: POST
+  defaults: { _controller: Max107\Bundle\UploadBundle\Tests\Bundle\TestBundle\Controller\DefaultController:submit }
+
+upload_edit:
+  path: /upload/{formType}/send/{imageId}
+  methods: POST
+  defaults: { _controller: Max107\Bundle\UploadBundle\Tests\Bundle\TestBundle\Controller\DefaultController:submit }
+
+upload_remove:
+  path: /upload/remove/{imageId}
+  methods: POST
+  defaults: { _controller: Max107\Bundle\UploadBundle\Tests\Bundle\TestBundle\Controller\DefaultController:remove }
+
+view:
+  path: /upload/{imageId}/{formType}
+  methods: GET
+  defaults: { _controller: Max107\Bundle\UploadBundle\Tests\Bundle\TestBundle\Controller\DefaultController:edit }
+
+_liip_imagine:
+  resource: "@LiipImagineBundle/Resources/config/routing.yaml"

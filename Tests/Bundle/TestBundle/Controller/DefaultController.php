@@ -7,39 +7,47 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Max107\TestBundle\Controller;
+namespace Max107\Bundle\UploadBundle\Tests\Bundle\TestBundle\Controller;
 
 use Max107\Bundle\UploadBundle\Form\Type as VichType;
-use Max107\TestBundle\Entity\Image;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Max107\Bundle\UploadBundle\Tests\Bundle\TestBundle\Entity\Image;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class DefaultController extends Controller
+class DefaultController extends AbstractController
 {
-    public function uploadAction($formType)
+    public static function getSubscribedServices()
+    {
+        return array_merge(parent::getSubscribedServices(), [
+            'container' => ContainerInterface::class,
+        ]);
+    }
+
+    public function upload($formType)
     {
         $form = $this->getForm($formType, $this->getImage());
 
-        return $this->render('VichTestBundle:Default:upload.html.twig', [
+        return $this->render('upload.html.twig', [
             'formType' => $formType,
             'form'     => $form->createView(),
         ]);
     }
 
-    public function editAction($formType, $imageId)
+    public function edit($formType, $imageId)
     {
         $form = $this->getForm($formType, $this->getImage($imageId));
 
-        return $this->render('VichTestBundle:Default:edit.html.twig', [
+        return $this->render('edit.html.twig', [
             'imageId'  => $imageId,
             'formType' => $formType,
             'form'     => $form->createView(),
         ]);
     }
 
-    public function removeAction($imageId)
+    public function remove($imageId)
     {
         $image = $this->getImage($imageId);
         $em = $this->getDoctrine()->getManager();
@@ -49,7 +57,7 @@ class DefaultController extends Controller
         return new Response('ok', 200);
     }
 
-    public function submitAction(Request $request, $formType, $imageId = null)
+    public function submit(Request $request, $formType, $imageId = null)
     {
         $image = $this->getImage($imageId);
         $form = $this->getForm($formType, $image);
@@ -66,7 +74,7 @@ class DefaultController extends Controller
             ]));
         }
 
-        return $this->render('VichTestBundle:Default:upload.html.twig', [
+        return $this->render('upload.html.twig', [
             'formType' => $formType,
             'form'     => $form->createView(),
         ]);

@@ -7,7 +7,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Max107\TestBundle\Entity;
+namespace Max107\Bundle\UploadBundle\Tests\Bundle\TestBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Max107\Bundle\UploadBundle\Upload\Annotation as Vich;
@@ -58,6 +58,7 @@ class Image
      * during Doctrine hydration.
      *
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     * @throws \Exception
      */
     public function setImageFile(File $image = null): void
     {

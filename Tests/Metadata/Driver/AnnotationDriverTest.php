@@ -9,11 +9,11 @@ declare(strict_types=1);
 
 namespace Max107\Bundle\UploadBundle\Tests\Metadata\Driver;
 
+use Max107\Bundle\UploadBundle\Tests\Bundle\TestBundle\Entity\Article;
 use Max107\Bundle\UploadBundle\Tests\DummyEntity;
 use Max107\Bundle\UploadBundle\Upload\Annotation\UploadableField;
 use Max107\Bundle\UploadBundle\Upload\Metadata\ClassMetadata;
 use Max107\Bundle\UploadBundle\Upload\Metadata\Driver\AnnotationDriver;
-use Max107\TestBundle\Entity\Article;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
