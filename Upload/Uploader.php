@@ -27,9 +27,7 @@ class Uploader
     protected $directoryNamer;
 
     /**
-     * Uploader constructor.
-     *
-     * @param FileNamerInterface      $fileNamer
+     * @param FileNamerInterface $fileNamer
      * @param DirectoryNamerInterface $directoryNamer
      */
     public function __construct(
@@ -42,7 +40,6 @@ class Uploader
 
     /**
      * @param string $fileName
-     *
      * @return string
      */
     protected function getFileExtension(string $fileName): string
@@ -52,13 +49,15 @@ class Uploader
 
     /**
      * @param FilesystemInterface $filesystem
-     * @param string              $uploadTo
-     * @param string              $fileName
-     *
+     * @param string $uploadTo
+     * @param string $fileName
      * @return string
      */
-    protected function findAvailablePath(FilesystemInterface $filesystem, string $uploadTo, string $fileName): string
-    {
+    protected function findAvailablePath(
+        FilesystemInterface $filesystem,
+        string $uploadTo,
+        string $fileName
+    ): string {
         $name = pathinfo($fileName, PATHINFO_FILENAME);
         $ext = $this->getFileExtension($fileName);
 
@@ -74,14 +73,14 @@ class Uploader
 
     /**
      * @param FilesystemInterface $filesystem
-     * @param SplFileInfo         $uploadedFile
-     *
-     * @throws \League\Flysystem\FileExistsException
-     *
+     * @param SplFileInfo $uploadedFile
      * @return string
+     * @throws \League\Flysystem\FileExistsException
      */
-    public function upload(FilesystemInterface $filesystem, SplFileInfo $uploadedFile): string
-    {
+    public function upload(
+        FilesystemInterface $filesystem,
+        SplFileInfo $uploadedFile
+    ): string {
         $fileName = $uploadedFile instanceof UploadedFile ?
             $uploadedFile->getClientOriginalName() :
             $uploadedFile->getFilename();

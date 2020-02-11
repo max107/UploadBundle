@@ -34,29 +34,21 @@ class UploadTest extends WebTestCase
         $form = $crawler->selectButton('form_save')->form();
         $image = $this->getUploadedFile($client, 'symfony_black_03.png');
 
-        $crawler = $client->submit($form, [
-            'form' => [
-                'imageFile' => $image,
-            ],
-        ]);
+        $client->submit($form, ['form' => ['imageFile' => $image]]);
 
         // we should be redirected to the "view" page
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
 
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertFileExists($this->getUploadsDir($client).'/sy/dd6526671de5b2e633f7b97a91a437bb.png', 'The file is uploaded');
+        $this->assertFileExists($this->getUploadsDir($client) . '/sy/dd6526671de5b2e633f7b97a91a437bb.png', 'The file is uploaded');
 
         // test the delete feature
         $this->assertCount(1, $crawler->filter('input[type=checkbox]'), 'the delete checkbox is here');
         $form = $crawler->selectButton('form_save')->form();
-        $crawler = $client->submit($form, [
-            'form' => [
-                'imageFile' => FileEvent::CLEAR_VALUE,
-            ],
-        ]);
+        $client->submit($form, ['form' => ['imageFile' => FileEvent::CLEAR_VALUE]]);
         $this->assertTrue($client->getResponse()->isRedirect());
-        $this->assertFileNotExists($this->getUploadsDir($client).'/sy/dd6526671de5b2e633f7b97a91a437bb.png', 'The file is deleted');
+        $this->assertFileNotExists($this->getUploadsDir($client) . '/sy/dd6526671de5b2e633f7b97a91a437bb.png', 'The file is deleted');
     }
 
     public function testFileIsUploadedAndRemoved(): void
@@ -70,22 +62,18 @@ class UploadTest extends WebTestCase
         $form = $crawler->selectButton('form_save')->form();
         $image = $this->getUploadedFile($client, 'symfony_black_03.png');
 
-        $crawler = $client->submit($form, [
-            'form' => [
-                'imageFile' => $image,
-            ],
-        ]);
+        $client->submit($form, ['form' => ['imageFile' => $image]]);
 
         // we should be redirected to the "view" page
         $this->assertTrue($client->getResponse()->isRedirect());
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertFileExists($this->getUploadsDir($client).'/sy/dd6526671de5b2e633f7b97a91a437bb.png', 'The file is uploaded');
+        $this->assertFileExists($this->getUploadsDir($client) . '/sy/dd6526671de5b2e633f7b97a91a437bb.png', 'The file is uploaded');
 
-        $crawler = $client->request('POST', '/upload/remove/1');
+        $client->request('POST', '/upload/remove/1');
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertFileNotExists($this->getUploadsDir($client).'/sy/dd6526671de5b2e633f7b97a91a437bb.png', 'The file is deleted');
+        $this->assertFileNotExists($this->getUploadsDir($client) . '/sy/dd6526671de5b2e633f7b97a91a437bb.png', 'The file is deleted');
     }
 
     public function testFileIsUploadedWithSameName(): void
@@ -94,8 +82,8 @@ class UploadTest extends WebTestCase
         $this->loadFixtures($client);
 
         $fs = new Filesystem();
-        $fs->mkdir($this->getUploadsDir($client).'/sy');
-        file_put_contents($this->getUploadsDir($client).'/sy/dd6526671de5b2e633f7b97a91a437bb.png', '123');
+        $fs->mkdir($this->getUploadsDir($client) . '/sy');
+        file_put_contents($this->getUploadsDir($client) . '/sy/dd6526671de5b2e633f7b97a91a437bb.png', '123');
 
         $crawler = $client->request('GET', '/upload/vich_file');
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -103,18 +91,14 @@ class UploadTest extends WebTestCase
         $form = $crawler->selectButton('form_save')->form();
         $image = $this->getUploadedFile($client, 'symfony_black_03.png');
 
-        $crawler = $client->submit($form, [
-            'form' => [
-                'imageFile' => $image,
-            ],
-        ]);
+        $client->submit($form, ['form' => ['imageFile' => $image]]);
 
         // we should be redirected to the "view" page
         $this->assertTrue($client->getResponse()->isRedirect());
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertFileExists($this->getUploadsDir($client).'/sy/dd6526671de5b2e633f7b97a91a437bb_1.png', 'The file is uploaded');
+        $this->assertFileExists($this->getUploadsDir($client) . '/sy/dd6526671de5b2e633f7b97a91a437bb_1.png', 'The file is uploaded');
     }
 
     public function testFileIsUploadedWithImageType(): void
@@ -128,18 +112,14 @@ class UploadTest extends WebTestCase
         $form = $crawler->selectButton('form_save')->form();
         $image = $this->getUploadedFile($client, 'symfony_black_03.png');
 
-        $crawler = $client->submit($form, [
-            'form' => [
-                'imageFile' => $image,
-            ],
-        ]);
+        $client->submit($form, ['form' => ['imageFile' => $image]]);
 
         // we should be redirected to the "view" page
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
 
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertFileExists($this->getUploadsDir($client).'/sy/dd6526671de5b2e633f7b97a91a437bb.png', 'The file is uploaded');
+        $this->assertFileExists($this->getUploadsDir($client) . '/sy/dd6526671de5b2e633f7b97a91a437bb.png', 'The file is uploaded');
 
         // test the delete feature
         $this->assertCount(1, $crawler->filter('input[type=checkbox]'), 'the delete checkbox is here');
@@ -150,6 +130,6 @@ class UploadTest extends WebTestCase
             ],
         ]);
         $this->assertTrue($client->getResponse()->isRedirect());
-        $this->assertFileNotExists($this->getUploadsDir($client).'/sy/dd6526671de5b2e633f7b97a91a437bb.png', 'The file is deleted');
+        $this->assertFileNotExists($this->getUploadsDir($client) . '/sy/dd6526671de5b2e633f7b97a91a437bb.png', 'The file is deleted');
     }
 }

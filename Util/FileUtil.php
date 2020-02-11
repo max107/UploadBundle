@@ -15,8 +15,7 @@ final class FileUtil
      * Splits filename for array of basename and extension.
      *
      * @param string $filename
-     *
-     * @return array An array of basename and extension
+     * @return array<string> An array of basename and extension
      */
     public static function spitNameByExtension(string $filename): array
     {

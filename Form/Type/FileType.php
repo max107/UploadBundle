@@ -26,21 +26,21 @@ class FileType extends AbstractFileType
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         parent::buildView($view, $form, $options);
 
         $view->vars['asset_name'] = $options['asset_name'];
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired(['mapping'])
             ->setDefaults([
                 'asset_name' => null,
                 'data_class' => null,
-                'mapping' => null,
+                'mapping'    => null,
             ]);
     }
 }

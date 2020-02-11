@@ -11,10 +11,5 @@ namespace Max107\Bundle\UploadBundle\Upload\FileNamer;
 
 interface FileNamerInterface
 {
-    /**
-     * @param string $name
-     *
-     * @return string
-     */
     public function getFileName(string $name): string;
 }

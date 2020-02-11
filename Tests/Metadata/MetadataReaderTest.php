@@ -118,7 +118,7 @@ class MetadataReaderTest extends TestCase
         $subClassMetadata->fields = ['foo'];
         $metadata = new \stdClass();
         $metadata->classMetadata = [
-            'ClassName' => $classMetadata,
+            'ClassName'    => $classMetadata,
             'SubClassName' => $subClassMetadata,
         ];
 
@@ -134,7 +134,6 @@ class MetadataReaderTest extends TestCase
     /**
      * @dataProvider fieldsMetadataProvider
      *
-     * @param array $fields
      * @param $expectedMetadata
      */
     public function testGetUploadableField(array $fields, $expectedMetadata): void

@@ -38,41 +38,41 @@ abstract class FileDriverTestCase extends TestCase
         $metadatas = [];
         $metadatas[] = [
             Product::class,
-            __DIR__.'/../../Fixtures/App/src/TestBundle/Resources/config/vich_uploader/Entity.Product.'.$this->getExtension(),
+            __DIR__ . '/../../Fixtures/App/src/TestBundle/Resources/config/vich_uploader/Entity.Product.' . $this->getExtension(),
             [
                 'image' => [
-                    'mapping' => 'product_image',
-                    'propertyName' => 'image',
+                    'mapping'          => 'product_image',
+                    'propertyName'     => 'image',
                     'fileNameProperty' => 'imageName',
-                    'size' => 'imageSize',
-                    'mimeType' => 'imageMimeType',
-                    'originalName' => 'imageOriginalName',
-                    'dimensions' => null,
+                    'size'             => 'imageSize',
+                    'mimeType'         => 'imageMimeType',
+                    'originalName'     => 'imageOriginalName',
+                    'dimensions'       => null,
                 ],
             ],
         ];
 
         $metadatas[] = [
             Article::class,
-            __DIR__.'/../../Fixtures/App/src/TestBundle/Resources/config/vich_uploader/Entity.Article.'.$this->getExtension(),
+            __DIR__ . '/../../Fixtures/App/src/TestBundle/Resources/config/vich_uploader/Entity.Article.' . $this->getExtension(),
             [
                 'attachment' => [
-                    'mapping' => 'dummy_file',
-                    'propertyName' => 'attachment',
+                    'mapping'          => 'dummy_file',
+                    'propertyName'     => 'attachment',
                     'fileNameProperty' => 'attachmentName',
-                    'size' => null,
-                    'mimeType' => null,
-                    'originalName' => null,
-                    'dimensions' => null,
+                    'size'             => null,
+                    'mimeType'         => null,
+                    'originalName'     => null,
+                    'dimensions'       => null,
                 ],
                 'image' => [
-                    'mapping' => 'dummy_image',
-                    'propertyName' => 'image',
+                    'mapping'          => 'dummy_image',
+                    'propertyName'     => 'image',
                     'fileNameProperty' => 'imageName',
-                    'size' => 'imageSize',
-                    'mimeType' => 'imageMimeType',
-                    'originalName' => 'imageOriginalName',
-                    'dimensions' => null,
+                    'size'             => 'imageSize',
+                    'mimeType'         => 'imageMimeType',
+                    'originalName'     => 'imageOriginalName',
+                    'dimensions'       => null,
                 ],
             ],
         ];

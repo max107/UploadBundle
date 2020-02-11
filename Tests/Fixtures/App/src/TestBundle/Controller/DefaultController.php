@@ -24,7 +24,7 @@ class DefaultController extends Controller
 
         return $this->render('VichTestBundle:Default:upload.html.twig', [
             'formType' => $formType,
-            'form' => $form->createView(),
+            'form'     => $form->createView(),
         ]);
     }
 
@@ -33,9 +33,9 @@ class DefaultController extends Controller
         $form = $this->getForm($formType, $this->getImage($imageId));
 
         return $this->render('VichTestBundle:Default:edit.html.twig', [
-            'imageId' => $imageId,
+            'imageId'  => $imageId,
             'formType' => $formType,
-            'form' => $form->createView(),
+            'form'     => $form->createView(),
         ]);
     }
 
@@ -62,13 +62,13 @@ class DefaultController extends Controller
 
             return $this->redirect($this->generateUrl('view', [
                 'formType' => $formType,
-                'imageId' => $image->getId(),
+                'imageId'  => $image->getId(),
             ]));
         }
 
         return $this->render('VichTestBundle:Default:upload.html.twig', [
             'formType' => $formType,
-            'form' => $form->createView(),
+            'form'     => $form->createView(),
         ]);
     }
 
@@ -76,7 +76,7 @@ class DefaultController extends Controller
     {
         return $this->createFormBuilder($image)
             ->add('imageFile', VichType\ImageType::class, [
-                'mapping' => 'imageName',
+                'mapping'        => 'imageName',
                 'imagine_filter' => 'preview',
             ])
             ->add('save', Type\SubmitType::class)

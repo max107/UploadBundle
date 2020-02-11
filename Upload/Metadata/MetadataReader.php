@@ -11,10 +11,9 @@ namespace Max107\Bundle\UploadBundle\Upload\Metadata;
 
 use Max107\Bundle\UploadBundle\Upload\Exception\MappingNotFoundException;
 use Metadata\AdvancedMetadataFactoryInterface;
+use RuntimeException;
 
 /**
- * MetadataReader.
- *
  * Exposes a simple interface to read objects metadata.
  *
  * @author Kévin Gomez <contact@kevingomez.fr>
@@ -27,8 +26,6 @@ class MetadataReader
     protected $reader;
 
     /**
-     * Constructs a new instance of the MetadataReader.
-     *
      * @param AdvancedMetadataFactoryInterface $reader The "low-level" metadata reader
      */
     public function __construct(AdvancedMetadataFactoryInterface $reader)
@@ -39,10 +36,7 @@ class MetadataReader
     /**
      * Tells if the given class is uploadable.
      *
-     * @param string $class   The class name to test (FQCN)
-     * @param string $mapping If given, also checks that the object has the given mapping
-     *
-     * @throws MappingNotFoundException
+     * @param string $class The class name to test (FQCN)
      *
      * @return bool
      */
@@ -54,7 +48,7 @@ class MetadataReader
     /**
      * Search for all uploadable classes.
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      *
      * @return array|null A list of uploadable class names
      */
@@ -66,11 +60,7 @@ class MetadataReader
     /**
      * Attempts to read the uploadable fields.
      *
-     * @param string $class   The class name to test (FQCN)
-     * @param string $mapping If given, also checks that the object has the given mapping
-     *
-     * @throws MappingNotFoundException
-     *
+     * @param string $class The class name to test (FQCN)
      * @return array A list of uploadable fields
      */
     public function getUploadableFields(string $class): array
@@ -78,10 +68,13 @@ class MetadataReader
         if (null === $metadata = $this->reader->getMetadataForClass($class)) {
             throw new MappingNotFoundException($mapping ?? '', $class);
         }
-        $uploadableFields = [];
 
+        $uploadableFields = [];
         foreach ($metadata->classMetadata as $classMetadata) {
-            $uploadableFields = array_merge($uploadableFields, $classMetadata->fields);
+            $uploadableFields = array_merge(
+                $uploadableFields,
+                $classMetadata->fields
+            );
         }
 
         return $uploadableFields;

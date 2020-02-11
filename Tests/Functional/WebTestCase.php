@@ -18,7 +18,7 @@ class WebTestCase extends BaseWebTestCase
 {
     protected static function getKernelClass()
     {
-        require_once __DIR__.'/../Fixtures/App/app/AppKernel.php';
+        require_once __DIR__ . '/../Fixtures/App/app/AppKernel.php';
 
         return 'AppKernel';
     }
@@ -26,7 +26,7 @@ class WebTestCase extends BaseWebTestCase
     protected function getUploadedFile($client, $name, $mimeType = 'image/png')
     {
         return new UploadedFile(
-            $this->getImagesDir($client).DIRECTORY_SEPARATOR.$name,
+            $this->getImagesDir($client) . DIRECTORY_SEPARATOR . $name,
             $name,
             $mimeType,
             123
@@ -35,12 +35,12 @@ class WebTestCase extends BaseWebTestCase
 
     protected function getUploadsDir($client)
     {
-        return $client->getKernel()->getCacheDir().'/media';
+        return $client->getKernel()->getCacheDir() . '/media';
     }
 
     protected function getImagesDir($client)
     {
-        return $client->getKernel()->getRootDir().'/Resources/images';
+        return $client->getKernel()->getRootDir() . '/Resources/images';
     }
 
     protected function getContainer($client)
