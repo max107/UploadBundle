@@ -17,6 +17,8 @@ use League\Flysystem\FilesystemInterface;
 use League\Flysystem\MountManager;
 use Max107\Bundle\UploadBundle\Upload\Metadata\MetadataReader;
 use Max107\Bundle\UploadBundle\Upload\Uploader;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class UploadEventSubscriber implements EventSubscriber
@@ -99,7 +101,7 @@ class UploadEventSubscriber implements EventSubscriber
 
     /**
      * @param LifecycleEventArgs|PreUpdateEventArgs $args
-     * @param mixed                                 $entity
+     * @param mixed $entity
      *
      * @throws \League\Flysystem\FileExistsException
      * @throws \League\Flysystem\FileNotFoundException
@@ -113,12 +115,19 @@ class UploadEventSubscriber implements EventSubscriber
                 $filesystem->delete($args->getOldValue($mapping['path']));
             }
 
+            /** @var File|UploadedFile $file */
             if ($file = $this->propertyAccessor->getValue($entity, $key)) {
-                $this->propertyAccessor->setValue(
-                    $entity,
-                    $mapping['path'],
-                    $this->uploader->upload($filesystem, $file)
-                );
+                $set = [
+                    'path' => $this->uploader->upload($filesystem, $file),
+                    'originalName' => $file->getClientOriginalName(),
+                    'size' => $file->getSize(),
+                    'mimeType' => $file->getClientMimeType(),
+                ];
+                foreach ($set as $setKey => $value) {
+                    if (false === empty($mapping[$setKey])) {
+                        $this->propertyAccessor->setValue($entity, $mapping[$setKey], $value);
+                    }
+                }
             }
         }
     }

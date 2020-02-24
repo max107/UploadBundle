@@ -50,6 +50,7 @@ class UploadableField
     protected $originalName;
 
     /**
+     * @todo
      * @var array
      */
     protected $dimensions;
