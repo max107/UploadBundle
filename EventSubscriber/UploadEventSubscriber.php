@@ -112,7 +112,10 @@ class UploadEventSubscriber implements EventSubscriber
             $filesystem = $this->getFilesystem($mapping['filesystem']);
 
             if ($args instanceof PreUpdateEventArgs && $args->hasChangedField($mapping['path'])) {
-                $filesystem->delete($args->getOldValue($mapping['path']));
+                $oldValue = $args->getOldValue($mapping['path']);
+                if ($filesystem->has($oldValue)) {
+                    $filesystem->delete($oldValue);
+                }
             }
 
             /** @var File|UploadedFile $file */
@@ -147,7 +150,10 @@ class UploadEventSubscriber implements EventSubscriber
         foreach ($this->getUploadableFields($entity) as $key => $mapping) {
             $file = $this->propertyAccessor->getValue($entity, $mapping['path']);
             if ($file) {
-                $this->getFilesystem($mapping['filesystem'])->delete($file);
+                $filesystem = $this->getFilesystem($mapping['filesystem']);
+                if ($filesystem->has($file)) {
+                    $filesystem->delete($file);
+                }
             }
         }
     }
