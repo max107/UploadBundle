@@ -21,7 +21,7 @@ class Article
     /**
      * @App\UploadableField(
      *     path="dummy_file",
-     *     filesystem="default",
+     *     filesystem="oneup_flysystem.default_filesystem",
      *     name="fileName"
      * )
      */
@@ -31,7 +31,7 @@ class Article
 
     /**
      * @App\UploadableField(
-     *     filesystem="default",
+     *     filesystem="oneup_flysystem.default_filesystem",
      *     fileNameProperty="imageName",
      *     originalName="originalNameField",
      *     mimeType="mimeTypeField",

@@ -10,22 +10,20 @@ declare(strict_types=1);
 namespace Max107\Bundle\UploadBundle\Tests\Functional;
 
 use Max107\Bundle\UploadBundle\Form\Type\FileEvent;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\Filesystem\Filesystem;
 
 class UploadTest extends WebTestCase
 {
-    /**
-     * @var \Symfony\Bundle\FrameworkBundle\KernelBrowser
-     */
-    protected $client;
+    protected KernelBrowser $client;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->client = static::createClient();
-        (new Filesystem())->remove($this->getUploadsDir($this->client));
-        $this->loadFixtures($this->client);
+        (new Filesystem())->remove($this->getUploadsDir());
+        $this->loadFixtures();
     }
 
     public function testFileIsUploadedWithFileType(): void
@@ -49,14 +47,24 @@ class UploadTest extends WebTestCase
         $crawler = $this->client->followRedirect();
 
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertFileExists($this->getUploadsDir($this->client) . '/sy/dd6526671de5b2e633f7b97a91a437bb.png', 'The file is uploaded');
+        $this->assertFileExists(
+            $this->getUploadsDir() . '/sy/dd6526671de5b2e633f7b97a91a437bb.png',
+            'The file is uploaded'
+        );
 
         // test the delete feature
-        $this->assertCount(1, $crawler->filter('input[type=checkbox]'), 'the delete checkbox is here');
+        $this->assertCount(
+            1,
+            $crawler->filter('input[type=checkbox]'),
+            'the delete checkbox is here'
+        );
         $form = $crawler->selectButton('form_save')->form();
         $this->client->submit($form, ['form' => ['imageFile' => FileEvent::CLEAR_VALUE]]);
         $this->assertTrue($this->client->getResponse()->isRedirect());
-        $this->assertFileNotExists($this->getUploadsDir($this->client) . '/sy/dd6526671de5b2e633f7b97a91a437bb.png', 'The file is deleted');
+        $this->assertFileNotExists(
+            $this->getUploadsDir() . '/sy/dd6526671de5b2e633f7b97a91a437bb.png',
+            'The file is deleted'
+        );
     }
 
     public function testFileIsUploadedAndRemoved(): void
@@ -74,18 +82,27 @@ class UploadTest extends WebTestCase
         $this->client->followRedirect();
 
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertFileExists($this->getUploadsDir($this->client) . '/sy/dd6526671de5b2e633f7b97a91a437bb.png', 'The file is uploaded');
+        $this->assertFileExists(
+            $this->getUploadsDir() . '/sy/dd6526671de5b2e633f7b97a91a437bb.png',
+            'The file is uploaded'
+        );
 
         $this->client->request('POST', '/upload/remove/1');
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertFileNotExists($this->getUploadsDir($this->client) . '/sy/dd6526671de5b2e633f7b97a91a437bb.png', 'The file is deleted');
+        $this->assertFileNotExists(
+            $this->getUploadsDir() . '/sy/dd6526671de5b2e633f7b97a91a437bb.png',
+            'The file is deleted'
+        );
     }
 
     public function testFileIsUploadedWithSameName(): void
     {
         $fs = new Filesystem();
-        $fs->mkdir($this->getUploadsDir($this->client) . '/sy');
-        file_put_contents($this->getUploadsDir($this->client) . '/sy/dd6526671de5b2e633f7b97a91a437bb.png', '123');
+        $fs->mkdir($this->getUploadsDir() . '/sy');
+        file_put_contents(
+            $this->getUploadsDir() . '/sy/dd6526671de5b2e633f7b97a91a437bb.png',
+            '123'
+        );
 
         $crawler = $this->client->request('GET', '/upload/vich_file');
         $this->assertTrue($this->client->getResponse()->isSuccessful());
@@ -100,7 +117,10 @@ class UploadTest extends WebTestCase
         $this->client->followRedirect();
 
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertFileExists($this->getUploadsDir($this->client) . '/sy/dd6526671de5b2e633f7b97a91a437bb_1.png', 'The file is uploaded');
+        $this->assertFileExists(
+            $this->getUploadsDir() . '/sy/dd6526671de5b2e633f7b97a91a437bb_1.png',
+            'The file is uploaded'
+        );
     }
 
     public function testFileIsUploadedWithImageType(): void
@@ -118,13 +138,19 @@ class UploadTest extends WebTestCase
         $crawler = $this->client->followRedirect();
 
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertFileExists($this->getUploadsDir($this->client) . '/sy/dd6526671de5b2e633f7b97a91a437bb.png', 'The file is uploaded');
+        $this->assertFileExists(
+            $this->getUploadsDir() . '/sy/dd6526671de5b2e633f7b97a91a437bb.png',
+            'The file is uploaded'
+        );
 
         // test the delete feature
         $this->assertCount(1, $crawler->filter('input[type=checkbox]'), 'the delete checkbox is here');
         $form = $crawler->selectButton('form_save')->form();
         $this->client->submit($form, ['form' => ['imageFile' => FileEvent::CLEAR_VALUE]]);
         $this->assertTrue($this->client->getResponse()->isRedirect());
-        $this->assertFileNotExists($this->getUploadsDir($this->client) . '/sy/dd6526671de5b2e633f7b97a91a437bb.png', 'The file is deleted');
+        $this->assertFileNotExists(
+            $this->getUploadsDir() . '/sy/dd6526671de5b2e633f7b97a91a437bb.png',
+            'The file is deleted'
+        );
     }
 }

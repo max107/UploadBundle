@@ -20,49 +20,23 @@ class FileEvent
 {
     const CLEAR_VALUE = '__remove';
 
-    /**
-     * @var FormBuilderInterface
-     */
-    protected $builder;
-    /**
-     * @var Request|null
-     */
-    protected $request;
-    /**
-     * @var PropertyAccessor
-     */
-    protected $propertyAccessor;
-    /**
-     * @var string
-     */
-    protected $mapping;
+    protected FormBuilderInterface $builder;
+    protected ?Request $request;
+    protected PropertyAccessor $propertyAccessor;
+    protected string $mapping;
 
-    /**
-     * @param RequestStack $requestStack
-     * @param PropertyAccessor $propertyAccessor
-     */
     public function __construct(RequestStack $requestStack, PropertyAccessor $propertyAccessor)
     {
         $this->request = $requestStack->getCurrentRequest();
         $this->propertyAccessor = $propertyAccessor;
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param string $mapping
-     */
-    public function setFormBuilder(
-        FormBuilderInterface $builder,
-        string $mapping
-    ): void {
+    public function setFormBuilder(FormBuilderInterface $builder, string $mapping): void
+    {
         $this->builder = $builder;
         $this->mapping = $mapping;
     }
 
-    /**
-     * @param string $path
-     * @return mixed
-     */
     public function fetchParams(string $path)
     {
         return $this->propertyAccessor->getValue(
@@ -71,10 +45,6 @@ class FileEvent
         );
     }
 
-    /**
-     * @param FormInterface $form
-     * @return string
-     */
     public function resolveParentPath(FormInterface $form): string
     {
         $path = [
@@ -91,15 +61,11 @@ class FileEvent
         }, array_reverse($path)));
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function __invoke(FormEvent $event): void
     {
         $form = $event->getForm();
 
-        $path = $this->resolveParentPath($form);
-        $value = $this->fetchParams($path);
+        $value = $this->fetchParams($this->resolveParentPath($form));
 
         if (null === $value && null === $event->getData()) {
             $field = $form->getParent();
@@ -110,7 +76,11 @@ class FileEvent
             $field = $form->getParent();
             if ($field) {
                 $entity = $field->getData();
-                $this->propertyAccessor->setValue($entity, $this->mapping, null);
+                $this->propertyAccessor->setValue(
+                    $entity,
+                    $this->mapping,
+                    null
+                );
             }
         }
     }

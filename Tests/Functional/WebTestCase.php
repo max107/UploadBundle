@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Max107\Bundle\UploadBundle\Tests\Functional;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\SchemaTool;
 use Max107\Bundle\UploadBundle\Tests\AppKernel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
@@ -32,9 +32,9 @@ class WebTestCase extends BaseWebTestCase
         );
     }
 
-    protected function getUploadsDir($client)
+    protected function getUploadsDir()
     {
-        return $client->getKernel()->getCacheDir() . '/media';
+        return self::getContainer()->getParameter('kernel.cache_dir') . '/../media';
     }
 
     protected function getImagesDir($client)
@@ -42,14 +42,9 @@ class WebTestCase extends BaseWebTestCase
         return $client->getKernel()->getProjectDir() . '/Tests/images';
     }
 
-    protected function getContainer($client)
+    protected function loadFixtures(): void
     {
-        return $client->getKernel()->getContainer();
-    }
-
-    protected function loadFixtures($client): void
-    {
-        $container = $this->getContainer($client);
+        $container = $this->client->getContainer();
         $registry = $container->get('doctrine');
         if ($registry instanceof ManagerRegistry) {
             $om = $registry->getManager();
@@ -64,7 +59,7 @@ class WebTestCase extends BaseWebTestCase
 
         $connection = $om->getConnection();
         $params = $connection->getParams();
-        $name = isset($params['path']) ? $params['path'] : (isset($params['dbname']) ? $params['dbname'] : false);
+        $name = $params['path'] ?? ($params['dbname'] ?? false);
 
         if (!$name) {
             throw new \InvalidArgumentException("Connection does not contain a 'path' or 'dbname' parameter and cannot be dropped.");
@@ -73,7 +68,7 @@ class WebTestCase extends BaseWebTestCase
         $metadatas = $om->getMetadataFactory()->getAllMetadata();
 
         $schemaTool = new SchemaTool($om);
-        $schemaTool->dropDatabase($name);
+        $schemaTool->dropDatabase();
         if (!empty($metadatas)) {
             $schemaTool->createSchema($metadatas);
         }

@@ -1,27 +1,27 @@
 # Symfony Configuration
 framework:
-  secret:             Hell yeah!
-  router:             { resource: "%kernel.project_dir%/Tests/config/routing.yml" }
-  form:               true
-  csrf_protection:    false
-  default_locale:     en
-  translator:         { fallback: en }
-  test:               ~
+  secret: hello
+  router: { resource: "%kernel.project_dir%/Tests/config/routing.yml" }
+  form: true
+  csrf_protection: false
+  default_locale: en
+  translator: { fallback: en }
+  test: ~
   session:
-    storage_id:     session.storage.mock_file
+    storage_id: session.storage.mock_file
   profiler:
     collect: false
 
+# Read the documentation: https://github.com/1up-lab/OneupFlysystemBundle
 oneup_flysystem:
   adapters:
     default:
       local:
-        directory: '%kernel.cache_dir%/media'
+        location: '%kernel.cache_dir%/../media'
   filesystems:
     default:
       adapter: default
-      visibility: public
-      mount: default
+      alias: League\Flysystem\Filesystem
 
 twig:
   debug: "%kernel.debug%"
@@ -32,7 +32,7 @@ twig:
 doctrine:
   dbal:
     driver: "pdo_sqlite"
-    path:   "%kernel.cache_dir%/database.db3"
+    path: "%kernel.cache_dir%/database.db3"
   orm:
     auto_generate_proxy_classes: "%kernel.debug%"
     auto_mapping: true
@@ -55,7 +55,7 @@ liip_imagine:
       quality: 75
       filters:
         thumbnail:
-          size: [120, 120]
+          size: [ 120, 120 ]
           mode: outbound
 
 services:
@@ -66,4 +66,4 @@ services:
 
   Max107\Bundle\UploadBundle\Tests\Bundle\TestBundle\Controller\:
     resource: '../Bundle/TestBundle/Controller'
-    tags: ['controller.service_arguments']
+    tags: [ 'controller.service_arguments' ]
