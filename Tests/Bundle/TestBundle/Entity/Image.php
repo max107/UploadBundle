@@ -32,7 +32,7 @@ class Image
     protected $updatedAt;
 
     /**
-     * @Vich\UploadableField(filesystem="default", path="imageName")
+     * @Vich\UploadableField(filesystem="oneup_flysystem.default_filesystem", path="imageName")
      *
      * @var File
      */

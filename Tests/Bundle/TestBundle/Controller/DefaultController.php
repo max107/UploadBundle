@@ -28,7 +28,7 @@ class DefaultController extends AbstractController
 
     public function upload($formType)
     {
-        $form = $this->getForm($formType, $this->getImage());
+        $form = $this->getForm($this->getImage());
 
         return $this->render('upload.html.twig', [
             'formType' => $formType,
@@ -38,7 +38,7 @@ class DefaultController extends AbstractController
 
     public function edit($formType, $imageId)
     {
-        $form = $this->getForm($formType, $this->getImage($imageId));
+        $form = $this->getForm($this->getImage($imageId));
 
         return $this->render('edit.html.twig', [
             'imageId'  => $imageId,
@@ -60,18 +60,21 @@ class DefaultController extends AbstractController
     public function submit(Request $request, $formType, $imageId = null)
     {
         $image = $this->getImage($imageId);
-        $form = $this->getForm($formType, $image);
+        $form = $this->getForm($image);
 
-        if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
 
-            $em->persist($image);
-            $em->flush();
+                $em->persist($image);
+                $em->flush();
 
-            return $this->redirect($this->generateUrl('view', [
-                'formType' => $formType,
-                'imageId'  => $image->getId(),
-            ]));
+                return $this->redirect($this->generateUrl('view', [
+                    'formType' => $formType,
+                    'imageId'  => $image->getId(),
+                ]));
+            }
         }
 
         return $this->render('upload.html.twig', [
@@ -80,7 +83,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    private function getForm($fileType, Image $image)
+    private function getForm(Image $image)
     {
         return $this->createFormBuilder($image)
             ->add('imageFile', VichType\ImageType::class, [

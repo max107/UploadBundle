@@ -41,11 +41,11 @@ class AppKernel extends Kernel
 
     public function getCacheDir(): string
     {
-        return sys_get_temp_dir() . '/UploadBundle/cache';
+        return __DIR__ . '/var/cache';
     }
 
     public function getLogDir(): string
     {
-        return sys_get_temp_dir() . '/UploadBundle/logs';
+        return __DIR__ . '/var/logs';
     }
 }

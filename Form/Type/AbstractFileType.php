@@ -19,21 +19,13 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 abstract class AbstractFileType extends AbstractType
 {
-    /**
-     * @var FileEvent
-     */
-    protected $event;
-    /**
-     * @var PropertyAccessor
-     */
-    protected $propertyAccessor;
+    protected FileEvent $event;
+    protected PropertyAccessor $propertyAccessor;
 
-    /**
-     * @param FileEvent $event
-     * @param PropertyAccessor $propertyAccessor
-     */
-    public function __construct(FileEvent $event, PropertyAccessor $propertyAccessor)
-    {
+    public function __construct(
+        FileEvent $event,
+        PropertyAccessor $propertyAccessor
+    ) {
         $this->event = $event;
         $this->propertyAccessor = $propertyAccessor;
     }
@@ -44,7 +36,6 @@ abstract class AbstractFileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $this->event->setFormBuilder($builder, $options['mapping']);
-
         $builder->addEventListener(
             FormEvents::PRE_SUBMIT,
             $this->event
