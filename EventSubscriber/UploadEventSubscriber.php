@@ -72,11 +72,18 @@ class UploadEventSubscriber implements EventSubscriber
 
             /** @var File|UploadedFile $file */
             if ($file = $this->propertyAccessor->getValue($entity, $key)) {
+                $originalName = $file instanceof UploadedFile ?
+                    $file->getClientOriginalName() :
+                    $file->getFilename();
+                $mimeType = $file instanceof UploadedFile ?
+                    $file->getClientMimeType() :
+                    $file->getMimeType();
+
                 $set = [
                     'path'         => $this->uploader->upload($this->mountManager, $file, $mapping['filesystem']),
-                    'originalName' => $file->getClientOriginalName(),
+                    'originalName' => $originalName,
                     'size'         => $file->getSize(),
-                    'mimeType'     => $file->getClientMimeType(),
+                    'mimeType'     => $mimeType,
                 ];
                 foreach ($set as $setKey => $value) {
                     if (false === empty($mapping[$setKey])) {
